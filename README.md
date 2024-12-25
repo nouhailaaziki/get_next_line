@@ -219,7 +219,7 @@ if (fd < 0) {
 ```c
 ssize_t bytes_read = read(fd, buffer, BUFFER_SIZE);
 ```
-
+---
 ## Conclusion
 
 The `get_next_line` project is an excellent opportunity to enhance your understanding of file handling, memory management, and modular programming in C. By completing this project, you’ll gain valuable experience in developing efficient and reliable code that adheres to strict requirements.
