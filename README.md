@@ -14,7 +14,7 @@
 - [Testing](#testing)
 - [Things to Consider](#things-to-consider)
 - [Bonus Features](#bonus-features)
-- [Key Concepts](#key-concepts).
+- [Key Concepts](#key-concepts)
 - [Conclusion](#conclusion)
 
 ---
@@ -151,9 +151,74 @@ Optimize string operations and minimize memory allocations for better performanc
    - Purpose: A larger BUFFER_SIZE reduces the number of read() calls by reading more data at once, while a smaller size minimizes memory usage but may require more calls.
    - Example:
 ```c
-#define BUFFER_SIZE 42
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
+#endif
 ```
 Here, BUFFER_SIZE is set to 42 bytes. The function will read up to 42 bytes from the file descriptor in one call.
+
+### 2. read()
+   - Definition: read() is a system call in C that reads a specified number of bytes from a file descriptor into a buffer.
+   - Syntax:
+```c
+ssize_t read(int fd, void *buf, size_t count);
+```
+- fd: The file descriptor to read from.
+- buf: A pointer to the memory where the read data will be stored.
+- count: The maximum number of bytes to read.
+- Return value: Returns the number of bytes actually read, 0 for end-of-file (EOF), or -1 for an error.
+   - Example:
+```
+char buffer[43];
+ssize_t bytes_read = read(fd, buffer, 42);
+```
+
+### 3. open()
+- Definition: open() is a system call that opens a file and returns a file descriptor.
+- Syntax:
+```c
+int open(const char *pathname, int flags, mode_t mode);
+```
+- pathname: The path to the file.
+- flags: flags: Specifies the mode in which to open the file (e.g., O_RDONLY for read-only, O_CREAT to create the file if it doesn’t exist, or O_RDWR for read and write access,...etc).
+- mode: Defines the file permissions to be set if the file is created (e.g., 0777 grants read, write, and execute permissions to the owner, group, and others).
+- Return value: Returns a file descriptor on success or -1 on error.
+Example:
+```c
+int fd = open("file.txt", O_RDONLY);
+```
+
+### 4. fd (File Descriptor)
+- Definition: A file descriptor is an integer that uniquely identifies an open file within a process.
+- Purpose: It acts as a handle for performing operations like read(), write(), or close() on the file.
+- Common File Descriptors:
+   - 0: Standard input (stdin).
+   - 1: Standard output (stdout).
+   - 2: Standard error (stderr).
+- Example:
+```c
+int fd = open("file.txt", O_RDONLY);
+if (fd < 0) {
+    perror("Error opening file");
+}
+```
+
+###  5. offset
+- Definition: The offset refers to the position in a file where the next read or write operation will begin.
+- How It Works: When a file is opened, the offset starts at 0 (the beginning of the file). As you read or write data, the offset moves forward. Functions like lseek() can manually adjust the offset(but it's forbidden).
+
+### 6. System Call
+- Definition: A system call is a low-level function provided by the operating system to interact with hardware and perform essential operations like file handling, process management, and communication.
+- Purpose: System calls act as the bridge between user-space programs (like your C code) and the kernel.
+- Examples:
+   - File-related system calls: read(), write(), open(), close().
+   - Process-related system calls: fork(), execve(), wait().
+   - Memory-related system calls: mmap(), brk().
+- How It Works: System calls are invoked by the program using special instructions that switch the CPU to kernel mode to execute privileged operations.
+- Example:
+```c
+ssize_t bytes_read = read(fd, buffer, BUFFER_SIZE);
+```
 
 ## Conclusion
 
