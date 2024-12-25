@@ -14,6 +14,7 @@
 - [Testing](#testing)
 - [Things to Consider](#things-to-consider)
 - [Bonus Features](#bonus-features)
+- [Key Concepts](#key-concepts).
 - [Conclusion](#conclusion)
 
 ---
@@ -142,6 +143,17 @@ The bonus part requires handling multiple file descriptors simultaneously. Use a
 Optimize string operations and minimize memory allocations for better performance.
 
 ---
+
+## Key Concepts
+
+### 1. BUFFER_SIZE
+   - Definition: BUFFER_SIZE is a macro (constant) that determines the number of bytes the program will read at a time from a file descriptor using the read() system call.
+   - Purpose: A larger BUFFER_SIZE reduces the number of read() calls by reading more data at once, while a smaller size minimizes memory usage but may require more calls.
+   - Example:
+```c
+#define BUFFER_SIZE 42
+```
+Here, BUFFER_SIZE is set to 42 bytes. The function will read up to 42 bytes from the file descriptor in one call.
 
 ## Conclusion
 
