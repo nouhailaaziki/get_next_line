@@ -9,7 +9,6 @@
 - [Introduction](#introduction)
 - [How It Works](#how-it-works)
 - [Project Requirements](#project-requirements)
-- [Usage](#usage)
 - [Code Breakdown](#code-breakdown)
 - [Testing](#testing)
 - [Things to Consider](#things-to-consider)
@@ -66,27 +65,6 @@ To successfully complete the project, you must:
    ```bash
    gcc -D BUFFER_SIZE=42 -o get_next_line get_next_line.c
    ```
-
----
-
-## Usage
-
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd get_next_line
-   ```
-
-2. Compile the code:
-   ```bash
-   gcc -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c -o gnl
-   ```
-
-3. Test the function with a sample file:
-   ```bash
-   ./gnl < test_file.txt
-   ```
-
 ---
 
 ## Code Breakdown
