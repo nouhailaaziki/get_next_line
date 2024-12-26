@@ -218,6 +218,7 @@ In simple terms, memory leaks happen when your program loses track of memory tha
 Memory leaks usually happen when:
 
 **Memory is allocated dynamically** using functions like `malloc`, `calloc`, or `new`, but the program doesn't `free` or `delete` that memory after it's done using it.
+
 **Pointers to the allocated memory** are lost (e.g., overwritten or forgotten), which means the program can't access the memory anymore, so it can't be freed.
 This means the program still holds on to memory it no longer needs, which eventually leads to reduced performance and, in severe cases, the program running out of available memory and crashing.
 
