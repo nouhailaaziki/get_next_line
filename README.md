@@ -60,10 +60,14 @@ To successfully complete the project, you must:
    - Use only allowed functions: `read`, `malloc`, and `free`.
    - No memory leaks or invalid memory access.
    - Efficient handling of large files and buffer sizes.
+   - Try to read as little as possible each time get_next_line() is
+called. If you encounter a new line, you have to return the current
+line.
+   - Don’t read the whole file and then process each line.
 
 4. Define a buffer size using the `BUFFER_SIZE` macro during compilation:
    ```bash
-   gcc -D BUFFER_SIZE=42 -o get_next_line get_next_line.c
+   gcc  get_next_line_utils.c get_next_line.c -D BUFFER_SIZE=42
    ```
 ---
 
@@ -78,10 +82,11 @@ The project typically consists of the following files:
 ### Key Functions
 
 1. **get_next_line**: The main function that reads a line from the file descriptor.
-2. **ft_strjoin**: Concatenates two strings dynamically.
+2. **ft_strdup**: Duplicates a string.
 3. **ft_strchr**: Locates the first occurrence of a character in a string.
-4. **ft_strdup**: Duplicates a string.
-5. **ft_substr**:  Returns the substring of the given string.
+4. **ft_strjoin**: Concatenates two strings dynamically.
+5. **ft_substr**: Returns the substring of the given string.
+6. **ft_strlen**: calculate the length of a string.
 ---
 
 ## Testing
@@ -94,11 +99,6 @@ The project typically consists of the following files:
   - Files without newlines.
   - Very large files or lines.
 - **Standard Input**: Test reading from the terminal.
-
-### Custom Test Cases
-
-You can create custom test files and use the function to validate behavior.
-
 ---
 
 ## Things to Consider
@@ -112,13 +112,7 @@ You can create custom test files and use the function to validate behavior.
 
 ## Bonus Features
 
-### Multiple File Descriptor Support
-
 The bonus part requires handling multiple file descriptors simultaneously. Use an array or a data structure to maintain separate states for each file descriptor.
-
-### Improved Performance
-
-Optimize string operations and minimize memory allocations for better performance.
 
 ---
 
@@ -144,7 +138,7 @@ In C programming, a **static variable** is one that retains its value across mul
 
 - Initialization:
 
-   - If a static variable is not explicitly initialized, it will automatically be set to ```zero``` for types like ```int```, and to ```NULL``` for pointer types, such as ```char*```. This is different from automatic local variables, which hold garbage values if not initialized.
+   - If a static variable is not explicitly initialized, it will automatically be set to `zero` for types like `int`, and to `NULL` for pointer types, such as `char*`. This is different from automatic local variables, which hold garbage values if not initialized.
 
 **Syntax**
 ```c
@@ -213,7 +207,21 @@ int main() {
 
 In summary, static variables are useful for cases where you need to retain data across function calls or limit the visibility of variables to specific parts of your program while keeping them alive for the duration of the program’s execution.
 
-### 2. BUFFER_SIZE
+### 2. Memory Leaks
+
+A **memory leak** in programming occurs when a program allocates memory (e.g., using `malloc` or `calloc`) but fails to release it properly (e.g., using `free` or `delete`) when it's no longer needed. This results in memory that is still reserved for the program but is inaccessible, leading to wasted memory and eventual system resource depletion.
+
+In simple terms, memory leaks happen when your program loses track of memory that it has allocated, but the memory is never returned to the system.
+
+**How Do Memory Leaks Happen?**
+
+Memory leaks usually happen when:
+
+**Memory is allocated dynamically** using functions like `malloc`, `calloc`, or `new`, but the program doesn't `free` or `delete` that memory after it's done using it.
+**Pointers to the allocated memory** are lost (e.g., overwritten or forgotten), which means the program can't access the memory anymore, so it can't be freed.
+This means the program still holds on to memory it no longer needs, which eventually leads to reduced performance and, in severe cases, the program running out of available memory and crashing.
+
+### 3. BUFFER_SIZE
 
    - Definition: BUFFER_SIZE is a macro (constant) that determines the number of bytes the program will read at a time from a file descriptor using the read() system call.
    - Purpose: A larger BUFFER_SIZE reduces the number of read() calls by reading more data at once, while a smaller size minimizes memory usage but may require more calls.
@@ -225,7 +233,7 @@ In summary, static variables are useful for cases where you need to retain data 
 ```
 Here, BUFFER_SIZE is set to 42 bytes. The function will read up to 42 bytes from the file descriptor in one call.
 
-### 3. read()
+### 4. read()
 
    - Definition: read() is a system call in C that reads a specified number of bytes from a file descriptor into a buffer.
    - Syntax:
@@ -242,7 +250,7 @@ char buffer[43];
 ssize_t bytes_read = read(fd, buffer, 42);
 ```
 
-### 4. open()
+### 5. open()
 
 - Definition: open() is a system call that opens a file and returns a file descriptor.
 - Syntax:
@@ -258,7 +266,7 @@ Example:
 int fd = open("file.txt", O_RDONLY);
 ```
 
-### 5. fd (File Descriptor)
+### 6. fd (File Descriptor)
 
 - Definition: A file descriptor is an integer that uniquely identifies an open file within a process.
 - Purpose: It acts as a handle for performing operations like read(), write(), or close() on the file.
@@ -274,12 +282,12 @@ if (fd < 0) {
 }
 ```
 
-###  6. offset
+###  7. offset
 
 - Definition: The offset refers to the position in a file where the next read or write operation will begin.
 - How It Works: When a file is opened, the offset starts at 0 (the beginning of the file). As you read or write data, the offset moves forward. Functions like lseek() can manually adjust the offset(but it's forbidden).
 
-### 7. System Call
+### 8. System Call
 - Definition: A system call is a low-level function provided by the operating system to interact with hardware and perform essential operations like file handling, process management, and communication.
 - Purpose: System calls act as the bridge between user-space programs (like your C code) and the kernel.
 - Examples:
@@ -295,5 +303,3 @@ ssize_t bytes_read = read(fd, buffer, BUFFER_SIZE);
 ## Conclusion
 
 The `get_next_line` project is an excellent opportunity to enhance your understanding of file handling, memory management, and modular programming in C. By completing this project, you’ll gain valuable experience in developing efficient and reliable code that adheres to strict requirements.
-
-Happy coding! 🚀

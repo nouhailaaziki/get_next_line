@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:23:06 by noaziki           #+#    #+#             */
-/*   Updated: 2024/12/03 12:23:42 by noaziki          ###   ########.fr       */
+/*   Updated: 2024/12/26 14:45:14 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,16 +98,20 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	return (p);
 }
 
-char	*ft_found_newline(const char *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
+	if (!s)
+		return (NULL);
 	while (s[i])
 	{
 		if (s[i] == (char)c)
 			return ((char *)(s + i));
 		i++;
 	}
-	return (NULL);
+	if (s[i] == (char)c)
+		return ((char *)(s + i));
+	return (0);
 }

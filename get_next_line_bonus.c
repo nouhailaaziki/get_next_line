@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:16:07 by noaziki           #+#    #+#             */
-/*   Updated: 2024/12/03 12:28:46 by noaziki          ###   ########.fr       */
+/*   Updated: 2024/12/26 14:46:08 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*find_line(int fd, char *rest, char *buffer)
 	ssize_t		read_char;
 	char		*tmp;
 
-	while (!ft_found_newline(buffer, '\n'))
+	while (!ft_strchr(rest, '\n'))
 	{
 		read_char = read(fd, buffer, BUFFER_SIZE);
 		if (read_char < 0)
@@ -29,14 +29,9 @@ char	*find_line(int fd, char *rest, char *buffer)
 		if (read_char == 0)
 			break ;
 		buffer[read_char] = '\0';
-		if (!rest)
-			rest = ft_strdup(buffer);
-		else
-		{
-			tmp = rest;
-			rest = ft_strjoin(tmp, buffer);
-			free (tmp);
-		}
+		tmp = rest;
+		rest = ft_strjoin(tmp, buffer);
+		free (tmp);
 	}
 	return (free (buffer), rest);
 }
@@ -65,12 +60,11 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || fd >= OPEN_MAX)
 		return (NULL);
-	if (BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
+	if (BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX)
 		return (free(rest[fd]), rest[fd] = NULL);
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (free (rest[fd]), rest[fd] = NULL, NULL);
-	buffer[0] = 0;
 	line = find_line(fd, rest[fd], buffer);
 	if (!line)
 		return (rest[fd] = NULL, NULL);
