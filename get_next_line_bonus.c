@@ -6,7 +6,7 @@
 /*   By: noaziki <noaziki@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:16:07 by noaziki           #+#    #+#             */
-/*   Updated: 2024/12/26 14:46:08 by noaziki          ###   ########.fr       */
+/*   Updated: 2024/12/28 10:29:53 by noaziki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || fd >= OPEN_MAX)
 		return (NULL);
-	if (BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX)
+	if (BUFFER_SIZE <= 0)
 		return (free(rest[fd]), rest[fd] = NULL);
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buffer = malloc(BUFFER_SIZE + 1 * sizeof(char));
 	if (!buffer)
 		return (free (rest[fd]), rest[fd] = NULL, NULL);
 	line = find_line(fd, rest[fd], buffer);
